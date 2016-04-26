@@ -22,7 +22,7 @@ func init() {
 
 func main() {
 
-	log.Println("elact v 1.0, Elfire Act generator")
+	log.Println("elact v 1.1, Elfire Act generator")
 	log.Println("Copyright (C) 2016, Alexey Kovrizhkin <ak@elfire.ru>")
 
 	flag.Usage = func() {

@@ -48,12 +48,12 @@ type Act struct {
 	Customers  map[string]Party    `json:"customers"`
 	Documents  map[string]Document `json:"documents"`
 	Meta       struct {
-		Author   string `json:"Author"`
-		Creator  string `json:"Creator"`
-		Font     string `json:"Font"`
-		Keywords string `json:"Keywords"`
-		Subject  string `json:"Subject"`
-		Title    string `json:"Title"`
+		AuthorFmt  string `json:"AuthorFmt"`
+		SubjectFmt string `json:"SubjectFmt"`
+		TitleFmt   string `json:"TitleFmt"`
+		Creator    string `json:"Creator"`
+		Font       string `json:"Font"`
+		Keywords   string `json:"Keywords"`
 	} `json:"meta"`
 	Names struct {
 		Resume        string `json:"Resume"`
@@ -68,10 +68,30 @@ type Act struct {
 	Services map[string]CustomerServices
 }
 
+type ActDef struct {
+	Id         string  `json:"id"`
+	Title      string  `json:"title"`
+	Customer   string  `json:"customer"`
+	Contractor string  `json:"contractor"`
+	Date       Date    `json:"date"`
+	Amount     float64 `json:"amount"`
+	Tax        float64 `json:"tax"`
+}
+
+// -----------------------------------------------------------------------------
+
 func (d *Date) UnmarshalJSON(b []byte) (err error) {
 	if b[0] == '"' && b[len(b)-1] == '"' {
 		b = b[1 : len(b)-1]
 	}
 	d.Time, err = time.Parse(dtLayout, string(b))
 	return
+}
+
+func (d Date) MarshalJSON() ([]byte, error) {
+	b := make([]byte, 0, 12)
+	b = append(b, '"')
+	b = d.AppendFormat(b, "2006-01-02")
+	b = append(b, '"')
+	return b, nil
 }

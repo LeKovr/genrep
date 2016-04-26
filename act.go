@@ -5,8 +5,10 @@ import (
 	"github.com/jung-kurt/gofpdf"
 	"reflect"
 
-	"it.elfire.ru/elfire/num2word"
+	"encoding/json"
+	"io/ioutil"
 
+	"it.elfire.ru/elfire/num2word"
 )
 
 // Convert 'ABCDEFG' to, for example, 'A,BCD,EFG'
@@ -58,12 +60,6 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 	pdf.SetDrawColor(145, 145, 145)
 	pdf.AddPage()
 
-	pdf.SetTitle(def.Meta.Title, true)
-	pdf.SetAuthor(def.Meta.Author, true)
-	pdf.SetSubject(def.Meta.Subject, true)
-	pdf.SetKeywords(def.Meta.Keywords, true)
-	pdf.SetCreator(def.Meta.Creator, true)
-
 	pdf.AddFont("Helvetica", "", def.Meta.Font+".json")
 	pdf.AddFont("Helvetica", "B", def.Meta.Font+"_Bold.json")
 
@@ -74,8 +70,8 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 	pdf.SetLeftMargin(15)
 	tr := pdf.UnicodeTranslatorFromDescriptor("cp1251")
 
-	str := tr(fmt.Sprintf(def.Names.TitleFmt, doc.Id, dateName(doc.Date)))
-	pdf.CellFormat(175, lineHt, str, "", 0, "C", false, 0, "")
+	title := fmt.Sprintf(def.Names.TitleFmt, doc.Id, dateName(doc.Date))
+	pdf.CellFormat(175, lineHt, tr(title), "", 0, "C", false, 0, "")
 	pdf.Ln(lineHt)
 
 	fontSize = 10.0
@@ -209,7 +205,28 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 		pdf.SetXY(m, baseY)
 
 	}
+	dt := doc.Date.Format("2006-01-02")
+	pdf.SetTitle(fmt.Sprintf(def.Meta.TitleFmt, customer.NameFull, doc.Id, dateName(doc.Date)), true)
+	pdf.SetAuthor(fmt.Sprintf(def.Meta.AuthorFmt, def.Contractor.NameFull), true)
+	pdf.SetSubject(fmt.Sprintf(def.Meta.SubjectFmt, customer.NameFull, doc.Id, dateName(doc.Date), total), true)
+	pdf.SetKeywords(fmt.Sprintf("%s %s %s %s %s %.2f", def.Meta.Keywords, def.Contractor.NameFull, customer.NameFull, doc.Id, dt, total), true)
+	pdf.SetCreator(def.Meta.Creator, true)
 
 	err = pdf.OutputFileAndClose(out + ".pdf")
+
+	if err == nil {
+		a := ActDef{
+			Id:         doc.Id,
+			Title:      title,
+			Customer:   customer.NameFull,
+			Contractor: def.Contractor.NameFull,
+			Date:       doc.Date,
+			Amount:     total,
+			Tax:        doc.Tax,
+		}
+		outjs, _ := json.MarshalIndent(a, "   ", "   ")
+		err = ioutil.WriteFile(out+".json", outjs, 0644)
+	}
+
 	return
 }

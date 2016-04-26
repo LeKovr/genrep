@@ -12,11 +12,11 @@
   },
 
   "meta": {
-    "Title": "Отчет Elfire.ru",
-    "Author": "elfire.ru",
-    "Subject": "Акт выполненных работ",
-    "Keywords": "report act elfire",
-    "Creator": "Elfire reports v1.0",
+    "TitleFmt": "%s, Акт № %s от %sг.",
+    "SubjectFmt": "%s, Акт № %s от %sг. на сумму %.0fр",
+    "AuthorFmt": "%s",
+    "Keywords": "report act elfire.ru",
+    "Creator": "Elfire.ru report system v1.1",
     "Font": "Arial"
   },
 
