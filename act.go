@@ -216,13 +216,14 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 
 	if err == nil {
 		a := ActDef{
-			Id:         doc.Id,
-			Title:      title,
-			Customer:   customer.NameFull,
-			Contractor: def.Contractor.NameFull,
-			Date:       doc.Date,
-			Amount:     total,
-			Tax:        doc.Tax,
+			Id:          doc.Id,
+			Title:       title,
+			Customer:    customer.NameFull,
+			Contractor:  def.Contractor.NameFull,
+			Date:        doc.Date,
+			Amount:      total,
+			Tax:         doc.Tax,
+			ConfirmDate: doc.ConfirmDate,
 		}
 		outjs, _ := json.MarshalIndent(a, "   ", "   ")
 		err = ioutil.WriteFile(out+".json", outjs, 0644)

@@ -36,6 +36,7 @@
 
   "customers" : {
     "main": {
+      "Id":       "var-customer_id",
       "Title":    "Заказчик:",
       "NameFull": "ООО \"Контора\"",
       "NameLong": "ООО \"Контора\"",
@@ -75,6 +76,7 @@
     "default": {
       "id": "16/1",
       "date": "2016-03-30",
+      "confirmed": "2016-04-05",
       "tax": 0.0,
       "customer": "main",
       "services": [

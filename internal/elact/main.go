@@ -7,9 +7,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path"
 
 	"it.elfire.ru/elfire/reports"
-
 )
 
 var cfgDef, cfgKey, cfgOut string
@@ -59,8 +59,13 @@ func main() {
 		os.Exit(3)
 	}
 
+	p := cfgOut + cfgKey
+	if customer.Id != "" {
+		prepDir(customer.Id)
+		p = path.Join(customer.Id, p)
+	}
 	//log.Printf("Def parsed: %+v", def)
-	err = reports.GenerateAct(def, doc, customer, cfgOut+cfgKey)
+	err = reports.GenerateAct(def, doc, customer, p)
 
 	if err != nil {
 		log.Println("Pdf out error:", err)
@@ -68,4 +73,16 @@ func main() {
 		log.Printf("Act %s%s.pdf generated", cfgOut, cfgKey)
 	}
 
+}
+
+func prepDir(dir string) {
+	if _, err := os.Stat(dir); err == nil {
+		// dir exists
+		return
+	}
+	err := os.MkdirAll(dir, 0755)
+	if err != nil {
+		log.Printf("Dir %s create error:", dir, err)
+		os.Exit(3)
+	}
 }

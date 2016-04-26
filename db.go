@@ -16,17 +16,19 @@ type ServiceDef struct {
 	Price float64 `json:"price"`
 }
 type Document struct {
-	Id       string  `json:"id"`
-	Customer string  `json:"customer"`
-	Date     Date    `json:"date"`
-	Tax      float64 `json:"tax"`
-	Services []struct {
+	Id          string  `json:"id"`
+	Customer    string  `json:"customer"`
+	Date        Date    `json:"date"`
+	Tax         float64 `json:"tax"`
+	ConfirmDate Date    `json:"confirmed"`
+	Services    []struct {
 		Amount float64 `json:"Amount"`
 		Code   string  `json:"Code"`
 	} `json:"services"`
 }
 
 type Party struct {
+	Id       string `json:"Id"`
 	Address  string `json:"Address"`
 	Bank     string `json:"Bank"`
 	Bik      string `json:"Bik"`
@@ -69,13 +71,14 @@ type Act struct {
 }
 
 type ActDef struct {
-	Id         string  `json:"id"`
-	Title      string  `json:"title"`
-	Customer   string  `json:"customer"`
-	Contractor string  `json:"contractor"`
-	Date       Date    `json:"date"`
-	Amount     float64 `json:"amount"`
-	Tax        float64 `json:"tax"`
+	Id          string  `json:"id"`
+	Title       string  `json:"title"`
+	Customer    string  `json:"customer"`
+	Contractor  string  `json:"contractor"`
+	Date        Date    `json:"date"`
+	ConfirmDate Date    `json:"confirm"`
+	Amount      float64 `json:"amount"`
+	Tax         float64 `json:"tax"`
 }
 
 // -----------------------------------------------------------------------------
