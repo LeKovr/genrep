@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	"it.elfire.ru/elfire/num2word"
+	"github.com/LeKovr/num2word"
 )
 
 // Convert 'ABCDEFG' to, for example, 'A,BCD,EFG'
@@ -138,7 +138,7 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 
 	pdf.Ln(lineHt * 3)
 
-	pdf.MultiCell(175, lineHt+2, tr(fmt.Sprintf(def.Names.TotalWordsFmt, num2word.RusAmount(total, true))), "", "", false)
+	pdf.MultiCell(175, lineHt+2, tr(fmt.Sprintf(def.Names.TotalWordsFmt, num2word.RuMoney(total, true))), "", "", false)
 
 	pdf.Ln(3)
 
@@ -215,6 +215,7 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 	err = pdf.OutputFileAndClose(out + ".pdf")
 
 	if err == nil {
+		// save .json act definition if no errors
 		a := ActDef{
 			Id:          doc.Id,
 			Title:       title,
