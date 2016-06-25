@@ -1,4 +1,4 @@
-package reports
+package genrep
 
 import (
 	"fmt"
@@ -52,6 +52,7 @@ var header = []string{"№", "Наименование работ, услуг", 
 // Column widths
 var w = []float64{7.0, 97.0, 15.0, 15.0, 20.0, 22.0}
 
+// GenerateAct generates out file with act
 func GenerateAct(def Act, doc Document, customer Party, out string) (err error) {
 
 	pdf := gofpdf.New("P", "mm", "A4", "fonts")
@@ -70,7 +71,7 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 	pdf.SetLeftMargin(15)
 	tr := pdf.UnicodeTranslatorFromDescriptor("cp1251")
 
-	title := fmt.Sprintf(def.Names.TitleFmt, doc.Id, dateName(doc.Date))
+	title := fmt.Sprintf(def.Names.TitleFmt, doc.ID, dateName(doc.Date))
 	pdf.CellFormat(175, lineHt, tr(title), "", 0, "C", false, 0, "")
 	pdf.Ln(lineHt)
 
@@ -206,10 +207,10 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 
 	}
 	dt := doc.Date.Format("2006-01-02")
-	pdf.SetTitle(fmt.Sprintf(def.Meta.TitleFmt, customer.NameFull, doc.Id, dateName(doc.Date)), true)
+	pdf.SetTitle(fmt.Sprintf(def.Meta.TitleFmt, customer.NameFull, doc.ID, dateName(doc.Date)), true)
 	pdf.SetAuthor(fmt.Sprintf(def.Meta.AuthorFmt, def.Contractor.NameFull), true)
-	pdf.SetSubject(fmt.Sprintf(def.Meta.SubjectFmt, customer.NameFull, doc.Id, dateName(doc.Date), total), true)
-	pdf.SetKeywords(fmt.Sprintf("%s %s %s %s %s %.2f", def.Meta.Keywords, def.Contractor.NameFull, customer.NameFull, doc.Id, dt, total), true)
+	pdf.SetSubject(fmt.Sprintf(def.Meta.SubjectFmt, customer.NameFull, doc.ID, dateName(doc.Date), total), true)
+	pdf.SetKeywords(fmt.Sprintf("%s %s %s %s %s %.2f", def.Meta.Keywords, def.Contractor.NameFull, customer.NameFull, doc.ID, dt, total), true)
 	pdf.SetCreator(def.Meta.Creator, true)
 
 	err = pdf.OutputFileAndClose(out + ".pdf")
@@ -217,7 +218,7 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 	if err == nil {
 		// save .json act definition if no errors
 		a := ActDef{
-			Id:          doc.Id,
+			ID:          doc.ID,
 			Title:       title,
 			Customer:    customer.NameFull,
 			Contractor:  def.Contractor.NameFull,

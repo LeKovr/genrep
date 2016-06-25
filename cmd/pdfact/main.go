@@ -11,7 +11,7 @@ import (
 	"github.com/LeKovr/go-base/logger"
 	"github.com/jessevdk/go-flags"
 
-	"it.elfire.ru/elfire/reports"
+	"github.com/LeKovr/genrep"
 )
 
 // -----------------------------------------------------------------------------
@@ -41,7 +41,7 @@ func main() {
 	log.Infof("%s v %s. pdf act generator", path.Base(os.Args[0]), Version)
 	log.Println("Copyright (C) 2016, Alexey Kovrizhkin <ak@elfire.ru>")
 
-	var def reports.Act
+	var def genrep.Act
 	file, err := ioutil.ReadFile(cfg.Def)
 	if err != nil {
 		log.Fatal("Definition read error: ", err)
@@ -63,12 +63,12 @@ func main() {
 	}
 
 	p := cfg.Out + cfg.Key
-	if customer.Id != "" {
-		prepDir(log, customer.Id)
-		p = path.Join(customer.Id, p)
+	if customer.ID != "" {
+		prepDir(log, customer.ID)
+		p = path.Join(customer.ID, p)
 	}
-	//log.Printf("Def parsed: %+v", def)
-	err = reports.GenerateAct(def, doc, customer, p)
+	log.Debugf("Def parsed: %+v", def)
+	err = genrep.GenerateAct(def, doc, customer, p)
 
 	if err != nil {
 		log.Fatal("Pdf out error: ", err)

@@ -1,22 +1,28 @@
-package reports
+// Схемы данных пакета
+
+package genrep
 
 import (
 	"time"
 )
 
+// Date - тип для работы в json с датами вида 2006-01-02
 type Date struct {
 	time.Time
 }
 
 const dtLayout = "2006-01-02"
 
+// ServiceDef - атрибуты оказываемых услуг
 type ServiceDef struct {
-	Name  string  `json:"name"`
-	Units string  `json:"units"`
-	Price float64 `json:"price"`
+	Name  string  `json:"name"`  // наименование
+	Units string  `json:"units"` // единица измерения
+	Price float64 `json:"price"` // стоимость
 }
+
+// Document - атрибуты акта
 type Document struct {
-	Id          string  `json:"id"`
+	ID          string  `json:"id"`
 	Customer    string  `json:"customer"`
 	Date        Date    `json:"date"`
 	Tax         float64 `json:"tax"`
@@ -27,8 +33,9 @@ type Document struct {
 	} `json:"services"`
 }
 
+// Party - сторона акта (заказчик или исполнитель)
 type Party struct {
-	Id       string `json:"Id"`
+	ID       string `json:"Id"`
 	Address  string `json:"Address"`
 	Bank     string `json:"Bank"`
 	Bik      string `json:"Bik"`
@@ -43,8 +50,10 @@ type Party struct {
 	Title    string `json:"Title"`
 }
 
+// CustomerServices - описание услуги для каждого кода
 type CustomerServices map[string]ServiceDef
 
+// Act - подготовленные для формирования документа атрибуты акта
 type Act struct {
 	Contractor Party               `json:"contractor"`
 	Customers  map[string]Party    `json:"customers"`
@@ -70,8 +79,9 @@ type Act struct {
 	Services map[string]CustomerServices
 }
 
+// ActDef - атрибуты акта для сохранения в json
 type ActDef struct {
-	Id          string  `json:"id"`
+	ID          string  `json:"id"`
 	Title       string  `json:"title"`
 	Customer    string  `json:"customer"`
 	Contractor  string  `json:"contractor"`
@@ -83,6 +93,7 @@ type ActDef struct {
 
 // -----------------------------------------------------------------------------
 
+// UnmarshalJSON парсит дату из json
 func (d *Date) UnmarshalJSON(b []byte) (err error) {
 	if b[0] == '"' && b[len(b)-1] == '"' {
 		b = b[1 : len(b)-1]
@@ -91,6 +102,7 @@ func (d *Date) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
+// MarshalJSON форматирует дату для экспорта в json
 func (d Date) MarshalJSON() ([]byte, error) {
 	b := make([]byte, 0, 12)
 	b = append(b, '"')
