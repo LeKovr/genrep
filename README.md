@@ -6,7 +6,7 @@ golang report generator
 
 Features
 --------
-* [cmd/pdfact](pdfact) - Формирование акта выполненных работ в pdf по описанию в json
+* [pdfact](cmd/pdfact) - Формирование акта выполненных работ в pdf по описанию в json
 
 Roadmap
 -------
@@ -29,9 +29,6 @@ https://github.com/LeKovr/genrep/archive/master.zip
 License
 -------
 
-The MIT License (MIT), see [LICENSE](LICENSE).
-
-Copyright (c) 2016 Alexey Kovrizhkin ak@elfire.ru
 The MIT License (MIT), see [LICENSE](LICENSE).
 
 Copyright (c) 2016 Alexey Kovrizhkin ak@elfire.ru
