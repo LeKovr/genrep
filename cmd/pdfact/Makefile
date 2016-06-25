@@ -30,7 +30,7 @@ all:
 
 ## build and run
 run: build
-	./$(PRGPATH) --level debug
+	./$(PRGPATH) --loglevel debug
 
 ## build and show help
 help: build
