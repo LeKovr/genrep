@@ -32,7 +32,7 @@ go get github.com/LeKovr/genrep
 
 ### Download
 
-See [Releases](releases)
+See [Latest release](https://github.com/LeKovr/genrep/releases/latest)
 
 License
 -------
