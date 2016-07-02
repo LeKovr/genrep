@@ -104,7 +104,7 @@ func setUp(cfg *Config) (log *logger.Log, err error) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	// Create a new instance of the logger
-	log, err = logger.New(logger.Dest(cfg.log.LogDest), logger.Level(cfg.log.LogLevel))
+	log, err = logger.New(logger.Dest(cfg.log.Dest), logger.Level(cfg.log.Level))
 	if err != nil {
 		panic(err)
 	}
