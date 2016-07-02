@@ -93,10 +93,7 @@ func GenerateAct(def Act, doc Document, customer Party, out string) (err error) 
 	pdf.Ln(lineHt * 3)
 
 	pdf.SetFont("Helvetica", "", fontSize)
-	wSum := 0.0
-	for _, v := range w {
-		wSum += v
-	}
+
 	// 	Header
 	for j, str := range header {
 		pdf.CellFormat(w[j], lineHt+2, tr(str), "1", 0, "CM", false, 0, "")
