@@ -2,7 +2,15 @@
 genrep
 =======
 
-golang report generator
+[![GoDoc][1]][2]
+[![GoCard][3]][4]
+
+[1]: https://godoc.org/github.com/LeKovr/genrep?status.svg
+[2]: https://godoc.org/github.com/LeKovr/genrep
+[3]: https://goreportcard.com/badge/LeKovr/genrep
+[4]: https://goreportcard.com/report/github.com/LeKovr/genrep
+
+[genrep](https://github.com/LeKovr/genrep) - golang report generator
 
 Features
 --------
@@ -24,7 +32,7 @@ go get github.com/LeKovr/genrep
 
 ### Download
 
-https://github.com/LeKovr/genrep/archive/master.zip
+See [Releases](releases)
 
 License
 -------
